@@ -2,6 +2,25 @@
 
 /* Keep datatable controls usable on narrow screens. */
 @media (max-width: 767.98px) {
+  body {
+    -webkit-tap-highlight-color: transparent;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .btn {
+    min-height: 44px;
+  }
+
+  .form-control,
+  .form-select {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom on focus. */
+  }
+
+  .card {
+    border-radius: 0.75rem;
+  }
+
   .dt-container .dt-layout-row {
     display: flex;
     flex-direction: column;

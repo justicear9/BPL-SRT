@@ -70,7 +70,15 @@
   <!-- Canonical SEO -->
   <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}" />
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="{{ asset(config('branding.favicon')) }}" />
+  <link rel="icon" type="image/svg+xml" href="{{ asset('pwa-icon.svg') }}" />
+  <!-- PWA -->
+  <link rel="manifest" href="{{ url('manifest.webmanifest') }}" />
+  <meta name="theme-color" content="#C8102E" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="BPL-SRT" />
+  <link rel="apple-touch-icon" href="{{ asset('pwa-icon.svg') }}" />
 
   <style id="bedita-branding-nav-logo">
     .app-brand-logo-img {
