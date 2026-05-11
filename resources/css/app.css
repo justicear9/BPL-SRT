@@ -1,0 +1,11 @@
+/* Vuexy: global app overrides (optional). Core styles load via @vite in layouts. */
+
+/* Keep datatable controls usable on narrow screens. */
+@media (max-width: 767.98px) {
+  .dt-container .dt-layout-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+}

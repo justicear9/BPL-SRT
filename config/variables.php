@@ -1,0 +1,33 @@
+<?php
+
+// Template / SEO variables (Vuexy layout expects these keys).
+return [
+    'creatorName' => 'Bedita Pharmaceuticals',
+    'creatorUrl' => '',
+    'templateName' => 'Bedita Pharmaceuticals',
+    'templateSuffix' => 'Sales workspace',
+    'templateVersion' => '1.0.0',
+    'templateFree' => false,
+    'templateDescription' => 'Bedita Pharmaceuticals — field sales, visits, and catalog.',
+    'templateKeyword' => 'Bedita, pharmaceuticals, sales, visits, CRM',
+    'licenseUrl' => '',
+    'livePreview' => '',
+    'productPage' => '',
+    'support' => '',
+    'moreThemes' => '',
+    'ogTitle' => 'Bedita Pharmaceuticals — Sales workspace',
+    'ogImage' => '',
+    'ogType' => 'website',
+    'documentation' => '',
+    'generator' => '',
+    'changelog' => '',
+    'repository' => '',
+    'gitRepo' => '',
+    'gitRepoAccess' => '',
+    'githubFreeUrl' => '',
+    'facebookUrl' => '',
+    'twitterUrl' => '',
+    'githubUrl' => '',
+    'dribbbleUrl' => '',
+    'instagramUrl' => '',
+];
