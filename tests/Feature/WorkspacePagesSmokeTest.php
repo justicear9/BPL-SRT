@@ -48,6 +48,7 @@ class WorkspacePagesSmokeTest extends TestCase
             route('reports.visits'),
             route('reports.orders'),
             route('reports.samples'),
+            route('reports.collections'),
             route('reports.alpha'),
         ] as $url) {
             $this->get($url)->assertOk();

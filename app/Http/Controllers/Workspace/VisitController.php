@@ -24,7 +24,7 @@ class VisitController extends Controller
         Gate::authorize('viewAny', Visit::class);
 
         $query = Visit::query()
-            ->with(['customer', 'user', 'contact', 'order.lines', 'samples'])
+            ->with(['customer', 'user', 'contact', 'order.lines', 'samples', 'collections'])
             ->orderByDesc('visited_at');
 
         $actor = auth()->user();

@@ -4,6 +4,7 @@ use App\Http\Controllers\dashboard\SalesDashboard;
 use App\Http\Controllers\language\LanguageController;
 use App\Http\Controllers\NavigationSearchController;
 use App\Http\Controllers\Reports\AlphaReportController;
+use App\Http\Controllers\Reports\CollectionReportController;
 use App\Http\Controllers\Reports\OrderReportController;
 use App\Http\Controllers\Reports\SampleReportController;
 use App\Http\Controllers\Reports\VisitReportController;
@@ -26,6 +27,7 @@ Route::middleware('auth')->group(function (): void {
         Route::get('/visits', [VisitReportController::class, 'index'])->name('visits');
         Route::get('/orders', [OrderReportController::class, 'index'])->name('orders');
         Route::get('/samples', [SampleReportController::class, 'index'])->name('samples');
+        Route::get('/collections', [CollectionReportController::class, 'index'])->name('collections');
         Route::get('/alpha', [AlphaReportController::class, 'index'])->name('alpha');
     });
 

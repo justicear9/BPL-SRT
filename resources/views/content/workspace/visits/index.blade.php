@@ -80,8 +80,7 @@
             <th>{{ __('Customer') }}</th>
             <th>{{ __('Contact') }}</th>
             <th>{{ __('Rep') }}</th>
-            <th>{{ __('Order total') }}</th>
-            <th>{{ __('Samples') }}</th>
+            <th>{{ __('Key actions') }}</th>
             <th class="text-end">{{ __('Actions') }}</th>
           </tr>
         </thead>
@@ -92,8 +91,28 @@
               <td>{{ $visit->customer?->name ?? '—' }}</td>
               <td>{{ $visit->contact?->listLabel() ?? '—' }}</td>
               <td>{{ $visit->user?->name ?? '—' }}</td>
-              <td>{{ \App\Models\Setting::currencySymbol() }}{{ number_format($visit->orderLineTotal(), 2) }}</td>
-              <td>{{ $visit->samples->sum('quantity') }}</td>
+              <td>
+                <div class="d-flex flex-wrap gap-1">
+                  @php
+                    $hasOrder = $visit->order && $visit->order->lines->isNotEmpty();
+                    $hasSamples = $visit->samples->sum('quantity') > 0;
+                    $hasCollections = $visit->collections->isNotEmpty();
+                  @endphp
+
+                  @if ($hasOrder)
+                    <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle">{{ __('Ordered') }}</span>
+                  @endif
+                  @if ($hasSamples)
+                    <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle">{{ __('Samples') }}</span>
+                  @endif
+                  @if ($hasCollections)
+                    <span class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle">{{ __('Collections') }}</span>
+                  @endif
+                  @unless ($hasOrder || $hasSamples || $hasCollections)
+                    <span class="text-body-secondary">—</span>
+                  @endunless
+                </div>
+              </td>
               <td class="text-end">
                 @can('update', $visit)
                   <a href="{{ route('workspace.visits.edit', $visit) }}" class="btn btn-sm btn-text-primary">{{ __('Full editor') }}</a>

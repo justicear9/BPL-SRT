@@ -161,6 +161,7 @@ class SalesSidebarMenu
                 $this->subItem('Visit Report', 'reports.visits', 'reports/visits'),
                 $this->subItem('Order Report', 'reports.orders', 'reports/orders'),
                 $this->subItem('Sample Report', 'reports.samples', 'reports/samples'),
+                $this->subItem('Collections Report', 'reports.collections', 'reports/collections'),
                 $this->subItem('Alpha Report', 'reports.alpha', 'reports/alpha'),
             ],
         ];
