@@ -1,0 +1,1 @@
+import{i as e}from"./chunk-7vSc1YTw.js";import{t}from"./jquery-zqdAjsHe.js";var n=e(t(),1);try{window.jQuery=window.$=n.default}catch{}
