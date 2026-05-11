@@ -1,58 +1,147 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BPL Sales Rep Tracking Software (BPL-SRT)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+BPL-SRT is a Laravel-based field sales tracking system for pharmaceutical reps and managers.  
+It helps teams manage customers, visits, orders, collections, product samples, and reporting in one place.
 
-## About Laravel
+## What This Project Does
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Manages customer records and assigned sales reps.
+- Tracks field visits with required contact persons.
+- Records order lines, samples given, and collections received during visits.
+- Supports customer import from CSV/XLSX with optional auto-assignment or auto-creation of sales rep users.
+- Supports product import from `Items.xlsx`.
+- Provides admin and workspace flows for day-to-day operations.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Laravel 12 (PHP 8.3+)
+- MySQL / MariaDB
+- Vite for frontend assets
+- Filament (admin panel/login)
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1) Requirements
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP 8.3+
+- Composer
+- Node.js + npm
+- MySQL or MariaDB
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### 2) Install
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+composer install
+npm install
+cp .env.example .env
+php artisan key:generate
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### 3) Configure Database
 
-## Contributing
+Edit `.env` and set:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- `DB_CONNECTION`
+- `DB_HOST`
+- `DB_PORT`
+- `DB_DATABASE`
+- `DB_USERNAME`
+- `DB_PASSWORD`
 
-## Code of Conduct
+### 4) Run Migrations
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan migrate
+```
 
-## Security Vulnerabilities
+### 5) Seed Demo Data (optional but useful)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan db:seed --class=Database\\Seeders\\DemoSeeder
+```
+
+This creates demo users:
+
+- Admin: `admin` / `password`
+- Sales rep: `rep` / `password`
+
+### 6) Build and Run
+
+```bash
+npm run build
+php artisan serve
+```
+
+For local frontend development:
+
+```bash
+npm run dev
+```
+
+## Login
+
+Guest redirects go to the Filament login route (`/admin/login`).  
+After successful login, users are redirected to the sales dashboard/workspace.
+
+The login field accepts username or email.
+
+## Imports
+
+### Customer Import
+
+Use the workspace customer import page or importer service.  
+Expected columns include:
+
+- `name` (required)
+- `type` (required)
+- `phone`, `city`, `region`, `address_line`, `shop_latitude`, `shop_longitude` (optional)
+- `assigned_user_email` (optional)
+
+`assigned_user_email` behavior:
+
+- If it matches an existing user email/username, customer is assigned to that user.
+- If it is a plain label (e.g., `LAWRENCE`), a sales rep account is auto-created:
+  - username derived from label
+  - email like `username@customers.import`
+  - default password `password`
+
+### Product Import
+
+Import products from `Items.xlsx`:
+
+```bash
+php artisan products:import-items Items.xlsx
+```
+
+The command upserts products using SKU (`No.` column) and updates name/category/UOM.
+
+## Useful Commands
+
+```bash
+# Run tests
+php artisan test
+
+# Format PHP code
+vendor/bin/pint
+
+# Rebuild frontend assets
+npm run build
+```
+
+## Project Structure (High Level)
+
+- `app/Http/Controllers/Workspace` - workspace CRUD and import endpoints
+- `app/Services/Imports` - customer spreadsheet import logic
+- `app/Console/Commands` - spreadsheet product import command
+- `app/Filament` - Filament auth/resources/widgets
+- `resources/views/content/workspace` - workspace UI pages
+- `resources/assets/js` - frontend behavior (visit form, modals, etc.)
+
+## Notes
+
+- `.env`, database dumps, and large local import files should not be committed.
+- If data appears missing, verify `.env` points to the expected database before running migration/reset commands.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is currently maintained as a private internal application.
